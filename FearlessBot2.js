@@ -2,6 +2,8 @@ const config = require("./config.json");
 const Discord = require("discord.js");
 const mysql = require("mysql");
 const staticData = require("./staticData.json");
+const WIDEEYES_ID = '132677927371407361';
+const SERP_ID = '83675118957494272';
 
 var bot = new Discord.Client({ "disableEveryone" : true, "fetchAllMembers" : true});
 
@@ -245,12 +247,12 @@ bot.on('message', message => {
             }
             break;
         case "!supermute":
-            if (isMod(message.member, message.channel.guild)) {
+            if (isMod(message.member, message.channel.guild) || message.author.id === WIDEEYES_ID) {
                 supermuteCommand(message, parseInt(command[1]));
             }
             break;
         case "!unsupermute":
-            if (isMod(message.member, message.channel.guild)) {
+            if (isMod(message.member, message.channel.guild) || message.author.id === WIDEEYES_ID) {
                 unsupermuteCommand(message);
             }
             break;
@@ -1053,9 +1055,9 @@ function supermuteCommand(message, hours)
 {
     var supermute = message.channel.guild.roles.find('name','supermute');
     message.mentions.members.forEach(function (member, key, map) {
-        if (isMod(member, message.channel.guild)) {
+        if (isMod(member, message.channel.guild) && member.id !== SERP_ID) {
             message.reply(":smirk:");
-        } else {
+        } else if (member.id === SERP_ID || isMod(message.member)) {
             member.addRole(supermute);
             var timeMessage = '';
             if (hours > 0) {
@@ -1074,9 +1076,9 @@ function unsupermuteCommand(message)
 {
     var supermute = message.channel.guild.roles.find('name','supermute');
     message.mentions.members.forEach(function (member, key, map) {
-        if (isMod(member, message.channel.guild)) {
+        if (isMod(member, message.channel.guild) && member.id !== '83675118957494272') {
             message.reply(":smirk:");
-        } else {
+        } else if (member.id === '83675118957494272' || isMod(message.member)) {
             member.removeRole(supermute);
             message.reply(member.user.username + " has been un-supermuted.");
         }
