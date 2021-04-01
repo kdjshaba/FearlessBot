@@ -79,6 +79,11 @@
     "permissions": "all",
     "type": "both"
   },
+  "supernamemix": {
+    "action": "supernamemix",
+    "permissions": "all",
+    "type": "both"
+  },
   "randmember": {
     "action": "randmember",
     "permissions": "all",
